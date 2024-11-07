@@ -5,7 +5,7 @@ import { getAllVideoAPI } from '../services/allAPI'
 import { all } from 'axios'
 
 
-function View() {
+function View({uploadVideoResponse}) {
 
   const [allVideos,setAllVideos]=useState([])
 
@@ -25,7 +25,7 @@ function View() {
 
   useEffect(()=>{
     getAllVideos()
-  },[])
+  },[uploadVideoResponse])
   
 
   return (

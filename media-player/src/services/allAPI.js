@@ -62,3 +62,38 @@ export const deletHistoryAPI=async(id)=>{
 
 
 }
+
+
+// addCategoryAPI
+export const addCategoryAPI=async(category)=>{
+    return await commonAPI("POST",`${server_url}/category`,category)
+
+}
+
+
+// getCategoryAPI
+
+export const getCategoryAPI=async()=>{
+    return await commonAPI("GET",`${server_url}/category`,"")
+
+}
+
+
+
+// deletCategory
+
+export const deletCategoryAPI=async(id)=>{
+    return await commonAPI("DELETE",`${server_url}/category/${id}`,{})
+
+
+}
+
+// updateCtegoryAPI
+
+export const updateCtegoryAPI=async(id,categoryDetails)=>{
+    return await commonAPI("PUT",`${server_url}/category/${id}`,categoryDetails)
+
+}
+
+
+

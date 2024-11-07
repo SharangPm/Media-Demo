@@ -1,7 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { deletHistoryAPI, getHistoryAPI } from '../services/allAPI'
 
 function WatchHistory() {
+
+    const[history,setHistory]=useState([])
+    useEffect(()=>{
+    getHistory()
+    },[])
+
+    const getHistory=async()=>{
+        const result = await getHistoryAPI()
+        if(result.status=200){
+            setHistory(result.data)
+        }else{
+            console.log("api failed");
+            setHistory(result.message)
+            
+        }
+    }
+console.log(history);
+
+
+
+const removeVideoHistory=async(id)=>{
+  await deletHistoryAPI(id)
+  getHistory()
+}
+
+
   return (
     <>
       <div className="container mt-5 mb-3 d-flex justify-content-between">
@@ -19,21 +46,26 @@ function WatchHistory() {
                     <th>Time Stamp</th>
                     <th>Action</th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Video</td>
+                {
+                  history?.length>0?history.map((video,index)=>(
+                    <tr>
+                    <td>{index+1}</td>
+                    <td>{video?.caption}</td>
                     <td>
-                        <a href="https://www.youtube.com/embed/AiD6SO0BKZI?si=5kXGT9Z1pp8i_2fW">
-                            https://www.youtube.com/embed/AiD6SO0BKZI?si=5kXGT9Z1pp8i_2fW
+                        <a href={video?.link} target='_blank'>
+                         {video?.link}
                         </a>
                     </td>
-                    <td>01.23, 29/10/2024</td>
+                    <td>{video.timeStamp}</td>
                     <td>
-                        <button className="text-danger btn">
+                        <button className="text-danger btn" onClick={()=>{removeVideoHistory(video?.id)}}>
                             <i className="fa-solid fa-trash"></i>
                         </button>
                     </td>
                 </tr>
+
+                  )):<p className='text-danger fw-bolder'>Nothing to Display</p>
+                }
             </table>
         </div>
     </>

@@ -6,7 +6,7 @@ import { addVideoAPI } from '../services/allAPI';
 
 
 
-function Add() {
+function Add({setUploadVideoResponse}) {
 
 
 
@@ -36,11 +36,13 @@ function Add() {
     const{id,caption,url,link}=uploadVideo
     if(!id || !caption || !url || !link){
       alert("please fill the missing fields")
+  
     }else{
       const result = await addVideoAPI(uploadVideo)
       if(result.status>=200 && result.status<300){
         alert("video uploaded")
         handleClose()
+        setUploadVideoResponse(result.data)
       }else{
         alert(result.message)
       }

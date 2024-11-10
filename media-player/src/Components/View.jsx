@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import VideoCard from './VideoCard'
 import { Col, Row } from 'react-bootstrap'
-import { getAllVideoAPI } from '../services/allAPI'
+import { getAllVideoAPI, getCategoryAPI, updateCtegoryAPI } from '../services/allAPI'
 import { all } from 'axios'
 
 
-function View({uploadVideoResponse}) {
+function View({uploadVideoResponse,setDropVideoResponse}) {
 
   const [allVideos,setAllVideos]=useState([])
 
@@ -28,12 +28,34 @@ function View({uploadVideoResponse}) {
   },[uploadVideoResponse])
   
 
+  const dragOver=(e)=>{
+   
+    e.preventDefault()
+  }
+
+  const videoDropped=async(e)=>{
+    const{videoId,categoryId}=JSON.parse(e.dataTransfer.getData("data"))
+    const{data} = await getCategoryAPI()
+    const selectedCategory = data.find(item=>item.id==categoryId)
+    let result = selectedCategory.allVideos.filter(video=>video.id!==videoId)
+    // console.log(result);
+    let {id,categoryName}=selectedCategory
+    let newCategory = {id,categoryName,allVideos:result}
+    const res = await updateCtegoryAPI(categoryId,newCategory)
+    setDropVideoResponse(res)
+    
+    
+
+
+    
+  }
+
   return (
     <>
 
     <h2 className='text-info'>All-Videos</h2>
 
-    <Row>
+    <Row droppable="true" onDragOver={e=>dragOver(e)} onDrop={e=>videoDropped(e)}>
 
       {
        allVideos?.length>0?allVideos.map((video,index)=>(

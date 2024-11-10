@@ -7,6 +7,7 @@ import Category from '../Components/Category'
 function Home() {
 
   const[uploadVideoResponse,setUploadVideoResponse]=useState({})
+  const[dropVideoResponse,setDropVideoResponse]=useState({})
 
   return (
    <>
@@ -19,10 +20,10 @@ function Home() {
 
       <div className="container-fluid mt-5 w-100 row">
         <div className="col-lg-9 all-videos">
-          <View uploadVideoResponse={uploadVideoResponse}/>
+          <View uploadVideoResponse={uploadVideoResponse} setDropVideoResponse={setDropVideoResponse}/>
         </div>
         <div className="col-lg-3 all-category">
-          <Category/>
+          <Category dropVideoResponse={dropVideoResponse} />
         </div>
       </div>
       </>

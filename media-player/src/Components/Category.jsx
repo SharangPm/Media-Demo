@@ -5,7 +5,7 @@ import { addCategoryAPI, deletCategoryAPI, getAVideoAPI, getCategoryAPI, updateC
 import VideoCard from './VideoCard';
 
 
-function Category() {
+function Category({dropVideoResponse}) {
 
 
   
@@ -73,10 +73,14 @@ function Category() {
 
   useEffect(()=>{
     getCategories()
-  },[])
+  },[dropVideoResponse])
   
 
-  
+  const videoDragStarted=(e,videoId,categoryId)=>{
+    let datashare = {videoId,categoryId}
+    e.dataTransfer.setData("data",JSON.stringify(datashare))
+
+  }
   
 
   return (
@@ -128,10 +132,10 @@ function Category() {
             </div>
             <Row>
               {
-                category?.allVideos.length>0?category?.allVideos.map(Card=>(
+                category?.allVideos.length>0?category?.allVideos.map(card=>(
                  
-                <Col sm={12} md={6} lg={4} xl={3} className='m-3'>
-                <VideoCard video={Card}/>
+                <Col sm={12} className='mb-3 mt-3 p-2' draggable onDragStart={e=>videoDragStarted(e,card.id,category.id)}>
+                <VideoCard video={card} insideCategory={true}/>
                 </Col>
                 )):null
               }

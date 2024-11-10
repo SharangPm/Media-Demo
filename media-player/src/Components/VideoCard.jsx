@@ -3,7 +3,7 @@ import { Card, Modal } from 'react-bootstrap'
 import { addHistoryAPI } from '../services/allAPI';
 
 
-function VideoCard({video}) {
+function VideoCard({video,insideCategory}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -33,7 +33,7 @@ function VideoCard({video}) {
         <div className="d-flex justify-content-between">
         <Card.Title>{video.caption}</Card.Title>
         
-        <button className='btn text-danger'><i class="fa-solid fa-trash"></i></button>
+        {insideCategory?null:<button className='btn text-danger'><i class="fa-solid fa-trash"></i></button>}
         </div>
       </Card.Body>
     </Card>
